@@ -292,7 +292,7 @@ main {
 
 /* Hero Section */
 .hero-section {
-  background: url("/public/images/Imagem\ do\ WhatsApp\ de\ 2025-07-21\ à\(s\)\ 22.20.43_3bfb3201.jpg") no-repeat center center / cover; /* Updated image path */
+  background: url("/Imagem\ do\ WhatsApp\ de\ 2025-07-21\ à\(s\)\ 22.20.43_3bfb3201.jpg") no-repeat center center / cover; /* Updated image path */
   position: relative;
   color: var(--branco);
   text-align: center;
