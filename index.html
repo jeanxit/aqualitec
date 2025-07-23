@@ -2,43 +2,112 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Aqualitec | Soluções em Vidros</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Soluções premium em vidros para residências, empresas e projetos especiais.">
+    <title>Aqualitec | Soluções Premium em Vidros e Esquadrias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Aqualitec - Especialistas em soluções premium de vidros, esquadrias de alumínio, box para banheiro, fachadas e fechamento de sacadas. Qualidade, segurança e design moderno.">
+    <meta name="keywords" content="vidros, esquadrias, alumínio, box banheiro, fachadas, fechamento sacada, guarda-corpo, espelhos">
+    <meta name="theme-color" content="#0050ff">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
+    <link rel="preload" href="Logo Aqualitec 2.png" as="image">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
-<header id="main-header">
+<header id="main-header" role="banner">
   <div class="header-container">
-    <img class="logo" src="Logo Aqualitec 2.png" alt="Logo da Aqualitec">
-    <div class="header-main">
+    <div class="header-left">
+      <img class="logo" src="Logo Aqualitec 2.png" alt="Aqualitec - Soluções em Vidros" loading="eager">
+    </div>
+    
+    <div class="header-center">
       <div class="slogan">
         Esquadrias de Alumínio com Qualidade e Precisão
       </div>
-      <nav class="menu" aria-label="Menu principal">
-        <a href="#sobre">Sobre</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#galeria">Galeria</a>
-        <a href="#contato">Contato</a>
+      <nav class="desktop-menu" role="navigation" aria-label="Menu principal">
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#servicos" class="nav-link">Serviços</a>
+        <a href="#galeria" class="nav-link">Galeria</a>
+        <a href="#contato" class="nav-link">Contato</a>
       </nav>
     </div>
-    <button class="menu-toggle" aria-label="Abrir menu" id="menu-toggle">
-      <i class="bi bi-list"></i>
-    </button>
+    
+    <div class="header-right">
+      <a href="https://wa.me/5541996314404" class="header-whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <i class="bi bi-whatsapp" aria-hidden="true"></i>
+      </a>
+      <button class="menu-toggle" aria-label="Abrir menu de navegação" id="menu-toggle" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
   </div>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Menu mobile">
+    <div class="mobile-menu-header">
+      <img src="Logo Aqualitec 2.png" alt="Aqualitec" class="mobile-logo">
+      <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Fechar menu">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="mobile-menu-content">
+      <a href="#sobre" class="mobile-nav-link">
+        <i class="bi bi-info-circle"></i>
+        <span>Sobre</span>
+      </a>
+      <a href="#servicos" class="mobile-nav-link">
+        <i class="bi bi-tools"></i>
+        <span>Serviços</span>
+      </a>
+      <a href="#galeria" class="mobile-nav-link">
+        <i class="bi bi-images"></i>
+        <span>Galeria</span>
+      </a>
+      <a href="#contato" class="mobile-nav-link">
+        <i class="bi bi-chat-dots"></i>
+        <span>Contato</span>
+      </a>
+      <div class="mobile-menu-divider"></div>
+      <a href="https://wa.me/5541996314404" class="mobile-whatsapp-btn" target="_blank" rel="noopener">
+        <i class="bi bi-whatsapp"></i>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </nav>
 </header>
 
 <main>
     <!-- Hero Section -->
-    <section id="hero" class="hero-section">
+    <section id="hero" class="hero-section" role="banner">
+        <div class="hero-background"></div>
         <div class="hero-content">
-            <h1>Transformando Ambientes com a Leveza do Vidro</h1>
-            <p>Soluções premium em vidros para residências, empresas e projetos especiais, unindo beleza, segurança e inovação.</p>
-            <a href="#contato" class="btn-primary">Solicite seu Orçamento</a>
+            <h1>Transformando Ambientes com a <span class="highlight">Leveza do Vidro</span></h1>
+            <p>Soluções premium em vidros para residências, empresas e projetos especiais, unindo <strong>beleza</strong>, <strong>segurança</strong> e <strong>inovação</strong>.</p>
+            <div class="hero-actions">
+                <a href="#contato" class="btn-primary">
+                    <i class="bi bi-chat-dots" aria-hidden="true"></i>
+                    Solicite seu Orçamento
+                </a>
+                <a href="https://wa.me/5541996314404" class="btn-secondary" target="_blank" rel="noopener">
+                    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
         </div>
     </section>
 
@@ -55,7 +124,7 @@
                 </div>
             </div>
             <div class="about-image">
-                <img src="/Imagem do WhatsApp de 2025-07-21 à(s) 22.20.43_3bfb3201.jpg" alt="Modern glass architecture" class="placeholder-image">
+                <img src="/Imagem do WhatsApp de 2025-07-21 à(s) 22.20.43_3bfb3201.jpg" alt="Modern glass architecture" class="placeholder-image" loading="lazy">
             </div>
         </div>
     </section>
@@ -94,37 +163,107 @@
     <!-- Galeria -->
     <section id="galeria" class="section-card">
         <h2>Galeria de Projetos</h2>
-        <div class="galeria-grid">
-            <div class="galeria-item" data-gallery-id="box">
-                <img src="https://vidrosdelivery.com.br/wp-content/uploads/2023/09/001-BOX-BT3-TEC-VIDRO-3-FOLHAS-DE-CORRER-PRETO-D.png" alt="Box para banheiro em vidro">
+        <div class="gallery-filter">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="box">Box</button>
+            <button class="filter-btn" data-filter="fachada">Fachadas</button>
+            <button class="filter-btn" data-filter="varanda">Varandas</button>
+        </div>
+        <div class="galeria-grid" id="galeria-grid">
+            <div class="galeria-item" data-gallery-id="box" data-category="box">
+                <div class="image-container">
+                    <img src="https://vidrosdelivery.com.br/wp-content/uploads/2023/09/001-BOX-BT3-TEC-VIDRO-3-FOLHAS-DE-CORRER-PRETO-D.png" 
+                         alt="Box para banheiro em vidro temperado" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Box para Banheiro</div>
             </div>
-            <div class="galeria-item" data-gallery-id="fachada">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.46 (1).png" alt="Fachada de vidro">
+            <div class="galeria-item" data-gallery-id="fachada" data-category="fachada">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.46 (1).png" 
+                         alt="Fachada de vidro" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Fachada de Vidro</div>
             </div>
-            <div class="galeria-item" data-gallery-id="espelho">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.46 (2).png" alt="Espelho decorativo">
+            <div class="galeria-item" data-gallery-id="espelho" data-category="espelho">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.46 (2).png" 
+                         alt="Espelho decorativo" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Espelho Decorativo</div>
             </div>
-            <div class="galeria-item" data-gallery-id="varanda">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.47.png" alt="Fechamento de varanda">
+            <div class="galeria-item" data-gallery-id="varanda" data-category="varanda">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.47.png" 
+                         alt="Fechamento de varanda" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Fechamento de Varanda</div>
             </div>
-            <div class="galeria-item" data-gallery-id="guarda-corpo">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.47 (1).png" alt="Guarda-corpo em vidro">
+            <div class="galeria-item" data-gallery-id="guarda-corpo" data-category="guarda-corpo">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.47 (1).png" 
+                         alt="Guarda-corpo em vidro" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Guarda-corpo em Vidro</div>
             </div>
-            <div class="galeria-item" data-gallery-id="porta">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.47 (2).png" alt="Porta de vidro temperado">
+            <div class="galeria-item" data-gallery-id="porta" data-category="porta">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.47 (2).png" 
+                         alt="Porta de vidro temperado" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Porta de Vidro Temperado</div>
             </div>
-            <div class="galeria-item" data-gallery-id="vitrine">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.47 (3).png" alt="Vitrine comercial">
+            <div class="galeria-item" data-gallery-id="vitrine" data-category="vitrine">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.47 (3).png" 
+                         alt="Vitrine comercial" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Vitrines Comerciais</div>
             </div>
-            <div class="galeria-item" data-gallery-id="outro">
-                <img src="WhatsApp Image 2025-07-20 at 14.26.47 (4).png" alt="Outro serviço em vidro">
+            <div class="galeria-item" data-gallery-id="outro" data-category="outro">
+                <div class="image-container">
+                    <img src="WhatsApp Image 2025-07-20 at 14.26.47 (4).png" 
+                         alt="Outro serviço em vidro" 
+                         loading="lazy">
+                    <div class="image-overlay">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        <span>Ver Detalhes</span>
+                    </div>
+                </div>
                 <div class="galeria-caption">Outro Projeto</div>
             </div>
         </div>

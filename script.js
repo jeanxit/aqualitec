@@ -1,314 +1,877 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Mobile Menu Toggle
-  const menuToggle = document.getElementById("menu-toggle")
-  const menu = document.querySelector(".menu")
+// Modern JavaScript with ES6+ features and better mobile support
+class AqualitecWebsite {
+  constructor() {
+    this.init()
+  }
 
-  if (menuToggle && menu) {
-    menuToggle.addEventListener("click", () => {
-      menu.classList.toggle("active")
-      // Optionally change icon
-      if (menu.classList.contains("active")) {
-        menuToggle.innerHTML = '<i class="bi bi-x-lg"></i>'
-      } else {
-        menuToggle.innerHTML = '<i class="bi bi-list"></i>'
-      }
-    })
+  init() {
+    this.setupEventListeners()
+    this.setupIntersectionObserver()
+    this.setupLazyLoading()
+    this.setupSmoothScrolling()
+    this.setupFormHandling()
+    this.setupGalleryFilter()
+    this.setupWindowResize()
+    this.setupMobileOptimizations() // Adicione esta linha
+  }
 
-    // Close menu when a link is clicked (for smooth scrolling)
-    document.querySelectorAll(".menu .nav-link").forEach((link) => {
+  setupEventListeners() {
+    // Mobile menu toggle
+    const menuToggle = document.getElementById("menu-toggle")
+    const mobileMenu = document.getElementById("mobile-menu")
+    const mobileOverlay = document.getElementById("mobile-menu-overlay")
+    const mobileMenuClose = document.getElementById("mobile-menu-close")
+
+    if (menuToggle && mobileMenu) {
+      // Open menu
+      menuToggle.addEventListener("click", (e) => {
+        e.preventDefault()
+        this.toggleMobileMenu()
+      })
+
+      // Close menu via close button
+      mobileMenuClose?.addEventListener("click", (e) => {
+        e.preventDefault()
+        this.closeMobileMenu()
+      })
+
+      // Close menu via overlay
+      mobileOverlay?.addEventListener("click", () => {
+        this.closeMobileMenu()
+      })
+
+      // Close menu when clicking nav links
+      mobileMenu.querySelectorAll(".mobile-nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          this.closeMobileMenu()
+        })
+      })
+
+      // Close menu on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+          this.closeMobileMenu()
+        }
+      })
+    }
+
+    // Desktop menu links
+    document.querySelectorAll(".desktop-menu .nav-link").forEach((link) => {
       link.addEventListener("click", () => {
-        menu.classList.remove("active")
-        menuToggle.innerHTML = '<i class="bi bi-list"></i>' // Reset icon
+        // Update active state
+        document.querySelectorAll(".nav-link").forEach((l) => l.classList.remove("active"))
+        link.classList.add("active")
       })
     })
+
+    // Header scroll effect
+    this.setupHeaderScroll()
+
+    // Scroll to top button
+    this.setupScrollToTop()
+
+    // Gallery modal
+    this.setupGalleryModal()
+
+    // Service modal
+    this.setupServiceModal()
+
+    // Touch gestures for mobile
+    this.setupTouchGestures()
+
+    // Prevent scroll when menu is open
+    this.setupScrollLock()
   }
 
-  // Header Scroll Effect
-  const header = document.getElementById("main-header")
-  if (header) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 50) {
-        header.classList.add("scrolled")
+  toggleMobileMenu() {
+    const menuToggle = document.getElementById("menu-toggle")
+    const mobileMenu = document.getElementById("mobile-menu")
+    const overlay = document.getElementById("mobile-menu-overlay")
+
+    const isActive = mobileMenu.classList.contains("active")
+
+    if (isActive) {
+      this.closeMobileMenu()
+    } else {
+      this.openMobileMenu()
+    }
+  }
+
+  openMobileMenu() {
+    const menuToggle = document.getElementById("menu-toggle")
+    const mobileMenu = document.getElementById("mobile-menu")
+    const overlay = document.getElementById("mobile-menu-overlay")
+
+    // Add active classes
+    mobileMenu.classList.add("active")
+    menuToggle.classList.add("active")
+    overlay.classList.add("active")
+
+    // Prevent body scroll
+    document.body.style.overflow = "hidden"
+    document.body.style.position = "fixed"
+    document.body.style.width = "100%"
+
+    // Update ARIA attributes
+    menuToggle.setAttribute("aria-expanded", "true")
+    mobileMenu.setAttribute("aria-hidden", "false")
+
+    // Focus first menu item for accessibility
+    setTimeout(() => {
+      const firstMenuItem = mobileMenu.querySelector(".mobile-nav-link")
+      firstMenuItem?.focus()
+    }, 300)
+
+    // Add animation class
+    setTimeout(() => {
+      mobileMenu.classList.add("menu-animated")
+    }, 50)
+  }
+
+  closeMobileMenu() {
+    const menuToggle = document.getElementById("menu-toggle")
+    const mobileMenu = document.getElementById("mobile-menu")
+    const overlay = document.getElementById("mobile-menu-overlay")
+
+    // Remove active classes
+    mobileMenu.classList.remove("active")
+    menuToggle.classList.remove("active")
+    overlay.classList.remove("active")
+    mobileMenu.classList.remove("menu-animated")
+
+    // Restore body scroll
+    document.body.style.overflow = ""
+    document.body.style.position = ""
+    document.body.style.width = ""
+
+    // Update ARIA attributes
+    menuToggle.setAttribute("aria-expanded", "false")
+    mobileMenu.setAttribute("aria-hidden", "true")
+
+    // Return focus to menu toggle
+    menuToggle.focus()
+  }
+
+  setupScrollLock() {
+    let scrollY = 0
+
+    const lockScroll = () => {
+      scrollY = window.scrollY
+      document.body.style.position = "fixed"
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = "100%"
+    }
+
+    const unlockScroll = () => {
+      document.body.style.position = ""
+      document.body.style.top = ""
+      document.body.style.width = ""
+      window.scrollTo(0, scrollY)
+    }
+
+    // Export methods for use in other functions
+    this.lockScroll = lockScroll
+    this.unlockScroll = unlockScroll
+  }
+
+  setupHeaderScroll() {
+    const header = document.getElementById("main-header")
+    let lastScrollY = window.scrollY
+    let ticking = false
+
+    const updateHeader = () => {
+      const scrollY = window.scrollY
+
+      if (scrollY > 100) {
+        header?.classList.add("scrolled")
       } else {
-        header.classList.remove("scrolled")
+        header?.classList.remove("scrolled")
+      }
+
+      // Hide header on scroll down, show on scroll up
+      if (scrollY > lastScrollY && scrollY > 200) {
+        header.style.transform = "translateY(-100%)"
+      } else {
+        header.style.transform = "translateY(0)"
+      }
+
+      lastScrollY = scrollY
+      ticking = false
+    }
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        requestAnimationFrame(updateHeader)
+        ticking = true
       }
     })
   }
 
-  // Scroll to Top Button
-  const scrollToTopBtn = document.getElementById("scrollToTopBtn")
-  if (scrollToTopBtn) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        scrollToTopBtn.classList.add("show")
-      } else {
-        scrollToTopBtn.classList.remove("show")
+  setupScrollToTop() {
+    const scrollBtn = document.getElementById("scrollToTopBtn")
+
+    if (scrollBtn) {
+      let ticking = false
+
+      const updateScrollBtn = () => {
+        if (window.scrollY > 500) {
+          scrollBtn.classList.add("show")
+        } else {
+          scrollBtn.classList.remove("show")
+        }
+        ticking = false
       }
-    })
 
-    scrollToTopBtn.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
+      window.addEventListener("scroll", () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollBtn)
+          ticking = true
+        }
       })
-    })
+
+      scrollBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        })
+      })
+    }
   }
 
-  // Gallery Modal Logic
-  const galeriaItems = document.querySelectorAll(".galeria-item")
-  const modalGaleria = document.getElementById("modal-galeria")
-  const galeriaImgPrincipal = document.getElementById("galeria-img-principal")
-  const galeriaTitulo = document.getElementById("galeria-titulo")
-  const galeriaDescricao = document.getElementById("galeria-descricao")
-  const galeriaThumbs = document.getElementById("galeria-thumbs")
-  const modalCloseButtons = document.querySelectorAll(".modal-close")
+  setupIntersectionObserver() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    }
 
-  const galleryData = {
-    box: {
-      title: "Box para Banheiro",
-      description: "Box de vidro temperado, ideal para banheiros modernos e seguros.",
-      images: [
-        "https://vidrosdelivery.com.br/wp-content/uploads/2023/09/001-BOX-BT3-TEC-VIDRO-3-FOLHAS-DE-CORRER-PRETO-D.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ2ABSVSmgb1EE7VqaIQi47RU7cPPwGdO7tw&s",
-        "data:image/jpeg;base64,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",
-      ],
-    },
-    fachada: {
-      title: "Fachada de Vidro",
-      description: "Fachadas modernas e elegantes que valorizam a arquitetura do seu imóvel.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.46 (1).png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-    espelho: {
-      title: "Espelho Decorativo",
-      description: "Espelhos sob medida para decorar e ampliar ambientes com sofisticação.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.46 (2).png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-    varanda: {
-      title: "Fechamento de Varanda",
-      description: "Fechamento de sacadas e varandas com vidro, proporcionando conforto e segurança.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.47.png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-    "guarda-corpo": {
-      title: "Guarda-Corpo em Vidro",
-      description: "Guarda-corpos elegantes e seguros para escadas, varandas e mezaninos.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.47 (1).png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-    porta: {
-      title: "Porta de Vidro Temperado",
-      description: "Portas de vidro temperado para ambientes internos e externos, com design e durabilidade.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.47 (2).png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-    vitrine: {
-      title: "Vitrines Comerciais",
-      description: "Vitrines personalizadas para destacar seus produtos e atrair clientes.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.47 (3).png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-    outro: {
-      title: "Outros Projetos em Vidro",
-      description: "Diversos outros projetos em vidro, adaptados às suas necessidades.",
-      images: [
-        "WhatsApp Image 2025-07-20 at 14.26.47 (4).png",
-        "/placeholder.svg?height=150&width=250",
-        "/placeholder.svg?height=150&width=250",
-      ],
-    },
-  }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in")
 
-  galeriaItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      const serviceId = item.dataset.galleryId
-      const data = galleryData[serviceId]
-
-      if (data) {
-        galeriaTitulo.textContent = data.title
-        galeriaDescricao.textContent = data.description
-        galeriaThumbs.innerHTML = "" // Clear previous thumbnails
-
-        data.images.forEach((imgSrc, index) => {
-          const thumb = document.createElement("img")
-          thumb.src = imgSrc
-          thumb.alt = `${data.title} - Imagem ${index + 1}`
-          thumb.classList.add("galeria-thumb")
-          if (index === 0) {
-            thumb.classList.add("active")
-            galeriaImgPrincipal.src = imgSrc
-            galeriaImgPrincipal.alt = `${data.title} - Imagem principal`
+          // Update active nav link
+          const id = entry.target.id
+          if (id) {
+            this.updateActiveNavLink(id)
           }
-          thumb.addEventListener("click", () => {
-            galeriaImgPrincipal.src = imgSrc
-            document.querySelectorAll(".galeria-thumb").forEach((t) => t.classList.remove("active"))
-            thumb.classList.add("active")
-          })
-          galeriaThumbs.appendChild(thumb)
-        })
+        }
+      })
+    }, observerOptions)
 
-        modalGaleria.style.display = "flex"
-      }
+    // Observe all sections
+    document.querySelectorAll("section[id]").forEach((section) => {
+      observer.observe(section)
     })
-  })
-
-  // Service Details Modal Logic
-  const servicosListItems = document.querySelectorAll(".servicos-list li")
-  const modalServico = document.getElementById("modal-servico")
-  const servicoTitulo = document.getElementById("servico-titulo")
-  const servicoDescricao = document.getElementById("servico-descricao")
-  const servicoBeneficios = document.getElementById("servico-beneficios")
-  const modalContactBtn = document.querySelector("#modal-servico .modal-contact-btn")
-
-  const serviceDetailsData = {
-    box: {
-      title: "Box para Banheiro em Vidro Temperado",
-      description:
-        "Oferecemos boxes de banheiro sob medida, com vidro temperado de alta qualidade, garantindo segurança, durabilidade e um toque de modernidade ao seu banheiro. Diversas opções de ferragens e acabamentos.",
-      benefits: [
-        "Segurança e resistência do vidro temperado",
-        "Design moderno e personalizável",
-        "Fácil limpeza e manutenção",
-        "Valorização do ambiente",
-      ],
-    },
-    sacada: {
-      title: "Fechamento de Sacadas e Varandas",
-      description:
-        "Transforme sua sacada ou varanda em um ambiente versátil e protegido com nossos sistemas de fechamento em vidro. Ideal para aproveitar o espaço em todas as estações, com proteção contra vento, chuva e ruído.",
-      benefits: [
-        "Proteção contra intempéries e ruídos",
-        "Ampliação do espaço útil",
-        "Ventilação e iluminação natural",
-        "Valorização estética do imóvel",
-      ],
-    },
-    fachada: {
-      title: "Fachadas em Vidro",
-      description:
-        "Desenvolvemos e instalamos fachadas de vidro que combinam estética, funcionalidade e eficiência energética. Soluções ideais para edifícios comerciais e residenciais que buscam modernidade e visibilidade.",
-      benefits: [
-        "Estética moderna e sofisticada",
-        "Otimização da luz natural",
-        "Isolamento térmico e acústico",
-        "Durabilidade e baixa manutenção",
-      ],
-    },
-    espelho: {
-      title: "Espelhos Decorativos Sob Medida",
-      description:
-        "Crie ambientes mais amplos e luminosos com nossos espelhos decorativos sob medida. Perfeitos para salas, quartos, banheiros e halls, com opções de lapidação, bisotê e molduras.",
-      benefits: [
-        "Ampliação visual do espaço",
-        "Aumento da luminosidade",
-        "Design personalizado",
-        "Acabamento impecável",
-      ],
-    },
-    "guarda-corpo": {
-      title: "Guarda-Corpo em Vidro",
-      description:
-        "Garanta segurança e elegância para escadas, varandas, mezaninos e piscinas com guarda-corpos de vidro. Nossas soluções oferecem transparência e resistência, sem comprometer a vista.",
-      benefits: [
-        "Segurança e conformidade com normas",
-        "Design clean e moderno",
-        "Visibilidade desobstruída",
-        "Resistência e durabilidade",
-      ],
-    },
-    portas: {
-      title: "Portas e Janelas de Vidro Temperado",
-      description:
-        "Fabricamos e instalamos portas e janelas de vidro temperado para diversos ambientes. Soluções que oferecem segurança, beleza e praticidade, com sistemas de abertura variados.",
-      benefits: [
-        "Alta resistência a impactos",
-        "Design versátil e elegante",
-        "Otimização da iluminação natural",
-        "Fácil manuseio e limpeza",
-      ],
-    },
-    vitrine: {
-      title: "Vitrines Comerciais",
-      description:
-        "Destaque seus produtos e atraia mais clientes com vitrines comerciais de vidro personalizadas. Projetamos e instalamos vitrines que valorizam sua marca e otimizam a exposição dos itens.",
-      benefits: [
-        "Máxima exposição de produtos",
-        "Design atraente e profissional",
-        "Segurança reforçada",
-        "Personalização completa",
-      ],
-    },
-    laminado: {
-      title: "Vidros Laminados e Temperados",
-      description:
-        "Trabalhamos com uma ampla gama de vidros laminados e temperados, ideais para diversas aplicações que exigem segurança e performance. Consulte-nos para projetos especiais.",
-      benefits: [
-        "Maior segurança contra estilhaçamento (laminado)",
-        "Alta resistência mecânica (temperado)",
-        "Controle solar e acústico (opcional)",
-        "Versatilidade para diferentes projetos",
-      ],
-    },
   }
 
-  servicosListItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      const serviceId = item.dataset.serviceId
-      const data = serviceDetailsData[serviceId]
-
-      if (data) {
-        servicoTitulo.textContent = data.title
-        servicoDescricao.textContent = data.description
-        servicoBeneficios.innerHTML = "" // Clear previous benefits
-
-        data.benefits.forEach((benefit) => {
-          const li = document.createElement("li")
-          li.innerHTML = `<i class="bi bi-check2-circle"></i> ${benefit}`
-          servicoBeneficios.appendChild(li)
-        })
-
-        // Update the contact button link to include service context
-        modalContactBtn.href = `#contato?service=${encodeURIComponent(data.title)}`
-
-        modalServico.style.display = "flex"
+  updateActiveNavLink(activeId) {
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.classList.remove("active")
+      if (link.getAttribute("href") === `#${activeId}`) {
+        link.classList.add("active")
       }
     })
-  })
+  }
 
-  // Close Modals
-  modalCloseButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      modalGaleria.style.display = "none"
-      modalServico.style.display = "none"
+  setupLazyLoading() {
+    if ("IntersectionObserver" in window) {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target
+            if (img.dataset.src) {
+              img.src = img.dataset.src
+              img.classList.add("loaded")
+              imageObserver.unobserve(img)
+            }
+          }
+        })
+      })
+
+      document.querySelectorAll("img[data-src]").forEach((img) => {
+        imageObserver.observe(img)
+      })
+    }
+  }
+
+  setupSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (e) => {
+        e.preventDefault()
+        const target = document.querySelector(anchor.getAttribute("href"))
+
+        if (target) {
+          const headerHeight = document.getElementById("main-header")?.offsetHeight || 0
+          const targetPosition = target.offsetTop - headerHeight - 20
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          })
+        }
+      })
     })
+  }
+
+  setupGalleryFilter() {
+    const filterBtns = document.querySelectorAll(".filter-btn")
+    const galleryItems = document.querySelectorAll(".galeria-item")
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter
+
+        // Update active button
+        filterBtns.forEach((b) => b.classList.remove("active"))
+        btn.classList.add("active")
+
+        // Filter items with animation
+        galleryItems.forEach((item) => {
+          const category = item.dataset.category
+          const shouldShow = filter === "all" || category === filter
+
+          if (shouldShow) {
+            item.style.display = "block"
+            setTimeout(() => {
+              item.style.opacity = "1"
+              item.style.transform = "scale(1)"
+            }, 10)
+          } else {
+            item.style.opacity = "0"
+            item.style.transform = "scale(0.8)"
+            setTimeout(() => {
+              item.style.display = "none"
+            }, 300)
+          }
+        })
+      })
+    })
+  }
+
+  setupGalleryModal() {
+    const galleryItems = document.querySelectorAll(".galeria-item")
+    const modal = document.getElementById("modal-galeria")
+
+    if (!modal) return
+
+    const modalImg = document.getElementById("galeria-img-principal")
+    const modalTitle = document.getElementById("galeria-titulo")
+    const modalDesc = document.getElementById("galeria-descricao")
+    const modalThumbs = document.getElementById("galeria-thumbs")
+
+    const galleryData = {
+      box: {
+        title: "Box para Banheiro em Vidro Temperado",
+        description:
+          "Boxes modernos e seguros com vidro temperado de alta qualidade, design personalizado e instalação profissional.",
+        images: [
+          "https://vidrosdelivery.com.br/wp-content/uploads/2023/09/001-BOX-BT3-TEC-VIDRO-3-FOLHAS-DE-CORRER-PRETO-D.png",
+          "/placeholder.svg?height=300&width=400",
+          "/placeholder.svg?height=300&width=400",
+        ],
+      },
+      fachada: {
+        title: "Fachadas em Vidro",
+        description:
+          "Fachadas modernas que combinam estética, funcionalidade e eficiência energética para seu projeto.",
+        images: [
+          "WhatsApp Image 2025-07-20 at 14.26.46 (1).png",
+          "/placeholder.svg?height=300&width=400",
+          "/placeholder.svg?height=300&width=400",
+        ],
+      },
+      // Add more gallery data as needed
+    }
+
+    galleryItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const galleryId = item.dataset.galleryId
+        const data = galleryData[galleryId]
+
+        if (data) {
+          this.openGalleryModal(data, modal, modalImg, modalTitle, modalDesc, modalThumbs)
+        }
+      })
+    })
+
+    // Close modal events
+    modal.querySelector(".modal-close")?.addEventListener("click", () => {
+      this.closeModal(modal)
+    })
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        this.closeModal(modal)
+      }
+    })
+  }
+
+  openGalleryModal(data, modal, modalImg, modalTitle, modalDesc, modalThumbs) {
+    modalTitle.textContent = data.title
+    modalDesc.textContent = data.description
+    modalThumbs.innerHTML = ""
+
+    // Set main image
+    modalImg.src = data.images[0]
+    modalImg.alt = data.title
+
+    // Create thumbnails
+    data.images.forEach((imgSrc, index) => {
+      const thumb = document.createElement("img")
+      thumb.src = imgSrc
+      thumb.alt = `${data.title} - Imagem ${index + 1}`
+      thumb.classList.add("galeria-thumb")
+
+      if (index === 0) {
+        thumb.classList.add("active")
+      }
+
+      thumb.addEventListener("click", () => {
+        modalImg.src = imgSrc
+        document.querySelectorAll(".galeria-thumb").forEach((t) => t.classList.remove("active"))
+        thumb.classList.add("active")
+      })
+
+      modalThumbs.appendChild(thumb)
+    })
+
+    this.openModal(modal)
+  }
+
+  setupServiceModal() {
+    const serviceItems = document.querySelectorAll(".servicos-list li")
+    const modal = document.getElementById("modal-servico")
+
+    if (!modal) return
+
+    const serviceData = {
+      box: {
+        title: "Box para Banheiro em Vidro Temperado",
+        description:
+          "Transforme seu banheiro com nossos boxes de vidro temperado sob medida. Oferecemos segurança, durabilidade e design moderno para criar o ambiente perfeito.",
+        benefits: [
+          "Vidro temperado 8mm de alta resistência",
+          "Ferragens em aço inoxidável premium",
+          "Design personalizado para seu espaço",
+          "Instalação profissional com garantia",
+          "Fácil limpeza e manutenção",
+          "Valorização do seu imóvel",
+        ],
+      },
+      // Add more service data as needed
+    }
+
+    serviceItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const serviceId = item.dataset.serviceId
+        const data = serviceData[serviceId]
+
+        if (data) {
+          this.openServiceModal(data, modal)
+        }
+      })
+    })
+
+    // Close modal events
+    modal.querySelector(".modal-close")?.addEventListener("click", () => {
+      this.closeModal(modal)
+    })
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        this.closeModal(modal)
+      }
+    })
+  }
+
+  openServiceModal(data, modal) {
+    const title = modal.querySelector("#servico-titulo")
+    const desc = modal.querySelector("#servico-descricao")
+    const benefits = modal.querySelector("#servico-beneficios")
+
+    if (title) title.textContent = data.title
+    if (desc) desc.textContent = data.description
+
+    if (benefits) {
+      benefits.innerHTML = ""
+      data.benefits.forEach((benefit) => {
+        const li = document.createElement("li")
+        li.innerHTML = `<i class="bi bi-check2-circle"></i> ${benefit}`
+        benefits.appendChild(li)
+      })
+    }
+
+    this.openModal(modal)
+  }
+
+  openModal(modal) {
+    modal.style.display = "flex"
+    document.body.style.overflow = "hidden"
+
+    // Focus management for accessibility
+    const firstFocusable = modal.querySelector(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    )
+    firstFocusable?.focus()
+  }
+
+  closeModal(modal) {
+    modal.style.display = "none"
+    document.body.style.overflow = "auto"
+  }
+
+  closeAllModals() {
+    document.querySelectorAll(".modal-overlay").forEach((modal) => {
+      this.closeModal(modal)
+    })
+  }
+
+  setupFormHandling() {
+    const form = document.querySelector(".contact-form form")
+
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const submitBtn = form.querySelector(".btn-submit")
+        const originalText = submitBtn.textContent
+
+        // Show loading state
+        submitBtn.textContent = "Enviando..."
+        submitBtn.disabled = true
+
+        try {
+          // Simulate form submission (replace with actual endpoint)
+          await new Promise((resolve) => setTimeout(resolve, 2000))
+
+          // Show success message
+          this.showNotification("Mensagem enviada com sucesso!", "success")
+          form.reset()
+        } catch (error) {
+          this.showNotification("Erro ao enviar mensagem. Tente novamente.", "error")
+        } finally {
+          submitBtn.textContent = originalText
+          submitBtn.disabled = false
+        }
+      })
+    }
+  }
+
+  setupTouchGestures() {
+    let touchStartX = 0
+    let touchEndX = 0
+    let touchStartY = 0
+    let touchEndY = 0
+    let touchStartTime = 0
+
+    const mobileMenu = document.getElementById("mobile-menu")
+    const overlay = document.getElementById("mobile-menu-overlay")
+
+    if (!mobileMenu) return
+
+    // Improved touch handling for menu
+    mobileMenu.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].screenX
+        touchStartY = e.changedTouches[0].screenY
+        touchStartTime = Date.now()
+      },
+      { passive: true },
+    )
+
+    mobileMenu.addEventListener(
+      "touchend",
+      (e) => {
+        touchEndX = e.changedTouches[0].screenX
+        touchEndY = e.changedTouches[0].screenY
+        this.handleSwipeGesture()
+      },
+      { passive: true },
+    )
+
+    // Enhanced overlay touch handling
+    if (overlay) {
+      overlay.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX
+          touchStartTime = Date.now()
+        },
+        { passive: true },
+      )
+
+      overlay.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX
+          const touchDuration = Date.now() - touchStartTime
+
+          // Quick tap to close
+          if (touchDuration < 200 && Math.abs(touchStartX - touchEndX) < 10) {
+            this.closeMobileMenu()
+          }
+          // Swipe to close
+          else if (touchStartX - touchEndX > 50) {
+            this.closeMobileMenu()
+          }
+        },
+        { passive: true },
+      )
+    }
+
+    // Add touch feedback for gallery items
+    const galleryItems = document.querySelectorAll(".galeria-item")
+    galleryItems.forEach((item) => {
+      item.addEventListener(
+        "touchstart",
+        () => {
+          item.style.transform = "scale(0.98)"
+        },
+        { passive: true },
+      )
+
+      item.addEventListener(
+        "touchend",
+        () => {
+          setTimeout(() => {
+            item.style.transform = ""
+          }, 150)
+        },
+        { passive: true },
+      )
+    })
+
+    // Enhanced button touch feedback
+    const buttons = document.querySelectorAll(".btn-primary, .btn-secondary, .zap-btn, .btn-submit")
+    buttons.forEach((button) => {
+      button.addEventListener(
+        "touchstart",
+        () => {
+          button.style.transform = "scale(0.97)"
+        },
+        { passive: true },
+      )
+
+      button.addEventListener(
+        "touchend",
+        () => {
+          setTimeout(() => {
+            button.style.transform = ""
+          }, 150)
+        },
+        { passive: true },
+      )
+    })
+  }
+
+  // Mobile-specific optimizations
+  setupMobileOptimizations() {
+    // Prevent zoom on input focus (iOS)
+    const inputs = document.querySelectorAll("input, textarea, select")
+    inputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        if (window.innerWidth < 768) {
+          const viewport = document.querySelector('meta[name="viewport"]')
+          if (viewport) {
+            viewport.setAttribute(
+              "content",
+              "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+            )
+          }
+        }
+      })
+
+      input.addEventListener("blur", () => {
+        if (window.innerWidth < 768) {
+          const viewport = document.querySelector('meta[name="viewport"]')
+          if (viewport) {
+            viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=5.0")
+          }
+        }
+      })
+    })
+
+    // Improve scroll performance on mobile
+    let ticking = false
+    const updateScrollElements = () => {
+      // Update header
+      const header = document.getElementById("main-header")
+      const scrollY = window.scrollY
+
+      if (scrollY > 50) {
+        header?.classList.add("scrolled")
+      } else {
+        header?.classList.remove("scrolled")
+      }
+
+      // Update scroll to top button
+      const scrollBtn = document.getElementById("scrollToTopBtn")
+      if (scrollY > 300) {
+        scrollBtn?.classList.add("show")
+      } else {
+        scrollBtn?.classList.remove("show")
+      }
+
+      ticking = false
+    }
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollElements)
+          ticking = true
+        }
+      },
+      { passive: true },
+    )
+
+    // Handle orientation change
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        // Close mobile menu on orientation change
+        this.closeMobileMenu()
+
+        // Recalculate viewport height
+        const vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty("--vh", `${vh}px`)
+      }, 100)
+    })
+
+    // Set initial viewport height for mobile browsers
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty("--vh", `${vh}px`)
+    }
+
+    setVH()
+    window.addEventListener("resize", setVH)
+  }
+
+  handleSwipeGesture() {
+    const swipeThreshold = 80
+    const timeThreshold = 500
+    const touchDuration = Date.now() - this.touchStartTime
+
+    // Check if it's a valid swipe (not too slow, not too vertical)
+    const horizontalDistance = Math.abs(this.touchEndX - this.touchStartX)
+    const verticalDistance = Math.abs(this.touchEndY - this.touchStartY)
+
+    if (horizontalDistance > verticalDistance && horizontalDistance > swipeThreshold && touchDuration < timeThreshold) {
+      // Swipe right to left - close menu
+      if (this.touchStartX - this.touchEndX > swipeThreshold) {
+        this.closeMobileMenu()
+      }
+    }
+  }
+
+  showNotification(message, type = "info") {
+    const notification = document.createElement("div")
+    notification.className = `notification notification-${type}`
+    notification.textContent = message
+
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === "success" ? "#10b981" : type === "error" ? "#ef4444" : "#3b82f6"};
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      z-index: 10000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    `
+
+    document.body.appendChild(notification)
+
+    // Animate in
+    setTimeout(() => {
+      notification.style.transform = "translateX(0)"
+    }, 100)
+
+    // Remove after 5 seconds
+    setTimeout(() => {
+      notification.style.transform = "translateX(100%)"
+      setTimeout(() => {
+        document.body.removeChild(notification)
+      }, 300)
+    }, 5000)
+  }
+
+  // Performance optimization: Debounce function
+  debounce(func, wait) {
+    let timeout
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout)
+        func(...args)
+      }
+      clearTimeout(timeout)
+      timeout = setTimeout(later, wait)
+    }
+  }
+
+  // Performance optimization: Throttle function
+  throttle(func, limit) {
+    let inThrottle
+    return function () {
+      const args = arguments
+
+      if (!inThrottle) {
+        func.apply(this, args)
+        inThrottle = true
+        setTimeout(() => (inThrottle = false), limit)
+      }
+    }
+  }
+
+  // Add method to handle window resize
+  setupWindowResize() {
+    let resizeTimeout
+
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        // Close mobile menu if window becomes desktop size
+        if (window.innerWidth > 768) {
+          this.closeMobileMenu()
+        }
+      }, 250)
+    })
+  }
+}
+
+// Initialize the website when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  new AqualitecWebsite()
+})
+
+// Service Worker registration for PWA capabilities
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((registration) => {
+        console.log("SW registered: ", registration)
+      })
+      .catch((registrationError) => {
+        console.log("SW registration failed: ", registrationError)
+      })
+  })
+}
+
+// Performance monitoring
+if ("PerformanceObserver" in window) {
+  const observer = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+      if (entry.entryType === "largest-contentful-paint") {
+        console.log("LCP:", entry.startTime)
+      }
+    }
   })
 
-  // Close modal if clicking outside the modal-box
-  window.addEventListener("click", (event) => {
-    if (event.target === modalGaleria) {
-      modalGaleria.style.display = "none"
-    }
-    if (event.target === modalServico) {
-      modalServico.style.display = "none"
-    }
-  })
-})
+  observer.observe({ entryTypes: ["largest-contentful-paint"] })
+}
