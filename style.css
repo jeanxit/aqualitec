@@ -388,12 +388,17 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   font-size: var(--font-size-lg);
+  position: relative;
+  z-index: 1;
 }
 
-.mobile-menu-close:hover {
-  background: var(--primary-blue);
-  color: white;
-  transform: rotate(90deg);
+/* Hide any duplicate close buttons in mobile menu */
+.mobile-menu .modal-close {
+  display: none !important;
+}
+
+.mobile-menu-header .mobile-menu-close {
+  display: flex !important;
 }
 
 .mobile-menu-content {
@@ -492,7 +497,6 @@ body {
 
   #main-header {
     height: 70px;
-    padding: 0;
   }
 
   #main-header.scrolled {
@@ -500,9 +504,22 @@ body {
   }
 
   .header-container {
-    padding: 8px 16px;
+    padding: 12px 16px;
     height: 100%;
     max-width: 100%;
+    gap: 12px;
+  }
+
+  .header-left {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
   }
 
   .header-center {
@@ -1119,7 +1136,7 @@ h2::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("/Imagem do WhatsApp de 2025-07-21 à(s) 22.20.43_3bfb3201.jpg") center / cover;
+  background: url("/aqualitec.png") center / cover;
   z-index: -2;
 }
 
