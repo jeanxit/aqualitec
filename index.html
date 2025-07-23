@@ -23,74 +23,50 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
-<header id="main-header" role="banner">
-  <div class="header-container">
-    <div class="header-left">
-      <img class="logo" src="Logo Aqualitec 2.png" alt="Aqualitec - Soluções em Vidros" loading="eager">
+<!-- Header -->
+<header class="header">
+    <div class="header-container">
+        <!-- Logo -->
+        <div class="header-logo">
+            <img src="Logo Aqualitec 2.png" alt="Aqualitec" class="logo-img">
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#sobre" class="nav-link">Sobre</a>
+            <a href="#servicos" class="nav-link">Serviços</a>
+            <a href="#contato" class="nav-link">Contato</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </div>
     
-    <div class="header-center">
-      <div class="slogan">
-        Esquadrias de Alumínio com Qualidade e Precisão
-      </div>
-      <nav class="desktop-menu" role="navigation" aria-label="Menu principal">
-        <a href="#sobre" class="nav-link">Sobre</a>
-        <a href="#servicos" class="nav-link">Serviços</a>
-        <a href="#galeria" class="nav-link">Galeria</a>
-        <a href="#contato" class="nav-link">Contato</a>
-      </nav>
-    </div>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
-    <div class="header-right">
-      <a href="https://wa.me/5541996314404" class="header-whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp">
-        <i class="bi bi-whatsapp" aria-hidden="true"></i>
-      </a>
-      <button class="menu-toggle" aria-label="Abrir menu de navegação" id="menu-toggle" aria-expanded="false">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
-    </div>
-  </div>
-  
-  <!-- Mobile Menu -->
-  <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
-  <nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Menu mobile">
-    <div class="mobile-menu-header">
-      <img src="Logo Aqualitec 2.png" alt="Aqualitec" class="mobile-logo">
-      <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Fechar menu">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-    <div class="mobile-menu-content">
-      <a href="#sobre" class="mobile-nav-link">
-        <i class="bi bi-info-circle"></i>
-        <span>Sobre</span>
-      </a>
-      <a href="#servicos" class="mobile-nav-link">
-        <i class="bi bi-tools"></i>
-        <span>Serviços</span>
-      </a>
-      <a href="#galeria" class="mobile-nav-link">
-        <i class="bi bi-images"></i>
-        <span>Galeria</span>
-      </a>
-      <a href="#contato" class="mobile-nav-link">
-        <i class="bi bi-chat-dots"></i>
-        <span>Contato</span>
-      </a>
-      <div class="mobile-menu-divider"></div>
-      <a href="https://wa.me/5541996314404" class="mobile-whatsapp-btn" target="_blank" rel="noopener">
-        <i class="bi bi-whatsapp"></i>
-        <span>WhatsApp</span>
-      </a>
-    </div>
-  </nav>
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <img src="Logo Aqualitec 2.png" alt="Aqualitec" class="mobile-logo">
+        </div>
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#sobre" class="mobile-nav-link">Sobre</a>
+            <a href="#servicos" class="mobile-nav-link">Serviços</a>
+            <a href="#contato" class="mobile-nav-link">Contato</a>
+        </div>
+    </nav>
 </header>
 
 <main>
     <!-- Hero Section -->
-    <section id="hero" class="hero-section" role="banner">
+    <section id="home" class="hero-section" role="banner">
         <div class="hero-background"></div>
         <div class="hero-content">
             <h1>Transformando Ambientes com a <span class="highlight">Leveza do Vidro</span></h1>

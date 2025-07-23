@@ -1,94 +1,58 @@
-// Modern JavaScript with ES6+ features and better mobile support
-class AqualitecWebsite {
+// Header Navigation System
+class HeaderNavigation {
   constructor() {
     this.init()
   }
 
   init() {
+    this.setupElements()
     this.setupEventListeners()
-    this.setupIntersectionObserver()
-    this.setupLazyLoading()
+    this.setupScrollEffect()
     this.setupSmoothScrolling()
-    this.setupFormHandling()
-    this.setupGalleryFilter()
-    this.setupWindowResize()
-    this.setupMobileOptimizations() // Adicione esta linha
+    this.setupActiveNavigation()
+  }
+
+  setupElements() {
+    this.header = document.querySelector(".header")
+    this.mobileMenuBtn = document.getElementById("mobileMenuBtn")
+    this.mobileMenu = document.getElementById("mobileMenu")
+    this.mobileMenuOverlay = document.getElementById("mobileMenuOverlay")
+    this.mobileCloseBtn = document.getElementById("mobileCloseBtn")
+    this.navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link")
   }
 
   setupEventListeners() {
     // Mobile menu toggle
-    const menuToggle = document.getElementById("menu-toggle")
-    const mobileMenu = document.getElementById("mobile-menu")
-    const mobileOverlay = document.getElementById("mobile-menu-overlay")
-    const mobileMenuClose = document.getElementById("mobile-menu-close")
+    this.mobileMenuBtn?.addEventListener("click", () => this.toggleMobileMenu())
+    this.mobileCloseBtn?.addEventListener("click", () => this.closeMobileMenu())
+    this.mobileMenuOverlay?.addEventListener("click", () => this.closeMobileMenu())
 
-    if (menuToggle && mobileMenu) {
-      // Open menu
-      menuToggle.addEventListener("click", (e) => {
-        e.preventDefault()
-        this.toggleMobileMenu()
-      })
-
-      // Close menu via close button
-      mobileMenuClose?.addEventListener("click", (e) => {
-        e.preventDefault()
-        this.closeMobileMenu()
-      })
-
-      // Close menu via overlay
-      mobileOverlay?.addEventListener("click", () => {
-        this.closeMobileMenu()
-      })
-
-      // Close menu when clicking nav links
-      mobileMenu.querySelectorAll(".mobile-nav-link").forEach((link) => {
-        link.addEventListener("click", () => {
-          this.closeMobileMenu()
-        })
-      })
-
-      // Close menu on escape key
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+    // Close menu on nav link click
+    this.navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
           this.closeMobileMenu()
         }
       })
-    }
-
-    // Desktop menu links
-    document.querySelectorAll(".desktop-menu .nav-link").forEach((link) => {
-      link.addEventListener("click", () => {
-        // Update active state
-        document.querySelectorAll(".nav-link").forEach((l) => l.classList.remove("active"))
-        link.classList.add("active")
-      })
     })
 
-    // Header scroll effect
-    this.setupHeaderScroll()
+    // Close menu on escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && this.mobileMenu?.classList.contains("active")) {
+        this.closeMobileMenu()
+      }
+    })
 
-    // Scroll to top button
-    this.setupScrollToTop()
-
-    // Gallery modal
-    this.setupGalleryModal()
-
-    // Service modal
-    this.setupServiceModal()
-
-    // Touch gestures for mobile
-    this.setupTouchGestures()
-
-    // Prevent scroll when menu is open
-    this.setupScrollLock()
+    // Handle window resize
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) {
+        this.closeMobileMenu()
+      }
+    })
   }
 
   toggleMobileMenu() {
-    const menuToggle = document.getElementById("menu-toggle")
-    const mobileMenu = document.getElementById("mobile-menu")
-    const overlay = document.getElementById("mobile-menu-overlay")
-
-    const isActive = mobileMenu.classList.contains("active")
+    const isActive = this.mobileMenu?.classList.contains("active")
 
     if (isActive) {
       this.closeMobileMenu()
@@ -98,84 +62,41 @@ class AqualitecWebsite {
   }
 
   openMobileMenu() {
-    const menuToggle = document.getElementById("menu-toggle")
-    const mobileMenu = document.getElementById("mobile-menu")
-    const overlay = document.getElementById("mobile-menu-overlay")
-
-    // Add active classes
-    mobileMenu.classList.add("active")
-    menuToggle.classList.add("active")
-    overlay.classList.add("active")
+    this.mobileMenu?.classList.add("active")
+    this.mobileMenuOverlay?.classList.add("active")
+    this.mobileMenuBtn?.classList.add("active")
 
     // Prevent body scroll
     document.body.style.overflow = "hidden"
-    document.body.style.position = "fixed"
-    document.body.style.width = "100%"
 
     // Update ARIA attributes
-    menuToggle.setAttribute("aria-expanded", "true")
-    mobileMenu.setAttribute("aria-hidden", "false")
+    this.mobileMenuBtn?.setAttribute("aria-expanded", "true")
+    this.mobileMenu?.setAttribute("aria-hidden", "false")
 
-    // Focus first menu item for accessibility
+    // Focus first menu item
     setTimeout(() => {
-      const firstMenuItem = mobileMenu.querySelector(".mobile-nav-link")
+      const firstMenuItem = this.mobileMenu?.querySelector(".mobile-nav-link")
       firstMenuItem?.focus()
     }, 300)
-
-    // Add animation class
-    setTimeout(() => {
-      mobileMenu.classList.add("menu-animated")
-    }, 50)
   }
 
   closeMobileMenu() {
-    const menuToggle = document.getElementById("menu-toggle")
-    const mobileMenu = document.getElementById("mobile-menu")
-    const overlay = document.getElementById("mobile-menu-overlay")
-
-    // Remove active classes
-    mobileMenu.classList.remove("active")
-    menuToggle.classList.remove("active")
-    overlay.classList.remove("active")
-    mobileMenu.classList.remove("menu-animated")
+    this.mobileMenu?.classList.remove("active")
+    this.mobileMenuOverlay?.classList.remove("active")
+    this.mobileMenuBtn?.classList.remove("active")
 
     // Restore body scroll
     document.body.style.overflow = ""
-    document.body.style.position = ""
-    document.body.style.width = ""
 
     // Update ARIA attributes
-    menuToggle.setAttribute("aria-expanded", "false")
-    mobileMenu.setAttribute("aria-hidden", "true")
+    this.mobileMenuBtn?.setAttribute("aria-expanded", "false")
+    this.mobileMenu?.setAttribute("aria-hidden", "true")
 
-    // Return focus to menu toggle
-    menuToggle.focus()
+    // Return focus to menu button
+    this.mobileMenuBtn?.focus()
   }
 
-  setupScrollLock() {
-    let scrollY = 0
-
-    const lockScroll = () => {
-      scrollY = window.scrollY
-      document.body.style.position = "fixed"
-      document.body.style.top = `-${scrollY}px`
-      document.body.style.width = "100%"
-    }
-
-    const unlockScroll = () => {
-      document.body.style.position = ""
-      document.body.style.top = ""
-      document.body.style.width = ""
-      window.scrollTo(0, scrollY)
-    }
-
-    // Export methods for use in other functions
-    this.lockScroll = lockScroll
-    this.unlockScroll = unlockScroll
-  }
-
-  setupHeaderScroll() {
-    const header = document.getElementById("main-header")
+  setupScrollEffect() {
     let lastScrollY = window.scrollY
     let ticking = false
 
@@ -183,28 +104,97 @@ class AqualitecWebsite {
       const scrollY = window.scrollY
 
       if (scrollY > 100) {
-        header?.classList.add("scrolled")
+        this.header?.classList.add("scrolled")
       } else {
-        header?.classList.remove("scrolled")
+        this.header?.classList.remove("scrolled")
       }
 
-      // Hide header on scroll down, show on scroll up
+      // Hide header on scroll down, show on scroll up (optional)
       if (scrollY > lastScrollY && scrollY > 200) {
-        header.style.transform = "translateY(-100%)"
+        this.header.style.transform = "translateY(-100%)"
       } else {
-        header.style.transform = "translateY(0)"
+        this.header.style.transform = "translateY(0)"
       }
 
       lastScrollY = scrollY
       ticking = false
     }
 
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        requestAnimationFrame(updateHeader)
-        ticking = true
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(updateHeader)
+          ticking = true
+        }
+      },
+      { passive: true },
+    )
+  }
+
+  setupSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (e) => {
+        e.preventDefault()
+        const target = document.querySelector(anchor.getAttribute("href"))
+
+        if (target) {
+          const headerHeight = this.header?.offsetHeight || 0
+          const targetPosition = target.offsetTop - headerHeight - 20
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          })
+        }
+      })
+    })
+  }
+
+  setupActiveNavigation() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "-100px 0px -50px 0px",
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+          this.updateActiveNavLink(id)
+        }
+      })
+    }, observerOptions)
+
+    // Observe all sections with IDs
+    document.querySelectorAll("section[id]").forEach((section) => {
+      observer.observe(section)
+    })
+  }
+
+  updateActiveNavLink(activeId) {
+    this.navLinks.forEach((link) => {
+      link.classList.remove("active")
+      if (link.getAttribute("href") === `#${activeId}`) {
+        link.classList.add("active")
       }
     })
+  }
+}
+
+// Website functionality
+class AqualitecWebsite {
+  constructor() {
+    this.init()
+  }
+
+  init() {
+    this.setupScrollToTop()
+    this.setupGalleryFilter()
+    this.setupGalleryModal()
+    this.setupServiceModal()
+    this.setupFormHandling()
+    this.setupIntersectionObserver()
   }
 
   setupScrollToTop() {
@@ -222,12 +212,16 @@ class AqualitecWebsite {
         ticking = false
       }
 
-      window.addEventListener("scroll", () => {
-        if (!ticking) {
-          requestAnimationFrame(updateScrollBtn)
-          ticking = true
-        }
-      })
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(updateScrollBtn)
+            ticking = true
+          }
+        },
+        { passive: true },
+      )
 
       scrollBtn.addEventListener("click", () => {
         window.scrollTo({
@@ -236,81 +230,6 @@ class AqualitecWebsite {
         })
       })
     }
-  }
-
-  setupIntersectionObserver() {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("animate-in")
-
-          // Update active nav link
-          const id = entry.target.id
-          if (id) {
-            this.updateActiveNavLink(id)
-          }
-        }
-      })
-    }, observerOptions)
-
-    // Observe all sections
-    document.querySelectorAll("section[id]").forEach((section) => {
-      observer.observe(section)
-    })
-  }
-
-  updateActiveNavLink(activeId) {
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      link.classList.remove("active")
-      if (link.getAttribute("href") === `#${activeId}`) {
-        link.classList.add("active")
-      }
-    })
-  }
-
-  setupLazyLoading() {
-    if ("IntersectionObserver" in window) {
-      const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const img = entry.target
-            if (img.dataset.src) {
-              img.src = img.dataset.src
-              img.classList.add("loaded")
-              imageObserver.unobserve(img)
-            }
-          }
-        })
-      })
-
-      document.querySelectorAll("img[data-src]").forEach((img) => {
-        imageObserver.observe(img)
-      })
-    }
-  }
-
-  setupSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", (e) => {
-        e.preventDefault()
-        const target = document.querySelector(anchor.getAttribute("href"))
-
-        if (target) {
-          const headerHeight = document.getElementById("main-header")?.offsetHeight || 0
-          const targetPosition = target.offsetTop - headerHeight - 20
-
-          window.scrollTo({
-            top: targetPosition,
-            behavior: "smooth",
-          })
-        }
-      })
-    })
   }
 
   setupGalleryFilter() {
@@ -380,7 +299,6 @@ class AqualitecWebsite {
           "/placeholder.svg?height=300&width=400",
         ],
       },
-      // Add more gallery data as needed
     }
 
     galleryItems.forEach((item) => {
@@ -458,7 +376,6 @@ class AqualitecWebsite {
           "Valorização do seu imóvel",
         ],
       },
-      // Add more service data as needed
     }
 
     serviceItems.forEach((item) => {
@@ -520,12 +437,6 @@ class AqualitecWebsite {
     document.body.style.overflow = "auto"
   }
 
-  closeAllModals() {
-    document.querySelectorAll(".modal-overlay").forEach((modal) => {
-      this.closeModal(modal)
-    })
-  }
-
   setupFormHandling() {
     const form = document.querySelector(".contact-form form")
 
@@ -541,7 +452,7 @@ class AqualitecWebsite {
         submitBtn.disabled = true
 
         try {
-          // Simulate form submission (replace with actual endpoint)
+          // Simulate form submission
           await new Promise((resolve) => setTimeout(resolve, 2000))
 
           // Show success message
@@ -557,213 +468,24 @@ class AqualitecWebsite {
     }
   }
 
-  setupTouchGestures() {
-    let touchStartX = 0
-    let touchEndX = 0
-    let touchStartY = 0
-    let touchEndY = 0
-    let touchStartTime = 0
-
-    const mobileMenu = document.getElementById("mobile-menu")
-    const overlay = document.getElementById("mobile-menu-overlay")
-
-    if (!mobileMenu) return
-
-    // Improved touch handling for menu
-    mobileMenu.addEventListener(
-      "touchstart",
-      (e) => {
-        touchStartX = e.changedTouches[0].screenX
-        touchStartY = e.changedTouches[0].screenY
-        touchStartTime = Date.now()
-      },
-      { passive: true },
-    )
-
-    mobileMenu.addEventListener(
-      "touchend",
-      (e) => {
-        touchEndX = e.changedTouches[0].screenX
-        touchEndY = e.changedTouches[0].screenY
-        this.handleSwipeGesture()
-      },
-      { passive: true },
-    )
-
-    // Enhanced overlay touch handling
-    if (overlay) {
-      overlay.addEventListener(
-        "touchstart",
-        (e) => {
-          touchStartX = e.changedTouches[0].screenX
-          touchStartTime = Date.now()
-        },
-        { passive: true },
-      )
-
-      overlay.addEventListener(
-        "touchend",
-        (e) => {
-          touchEndX = e.changedTouches[0].screenX
-          const touchDuration = Date.now() - touchStartTime
-
-          // Quick tap to close
-          if (touchDuration < 200 && Math.abs(touchStartX - touchEndX) < 10) {
-            this.closeMobileMenu()
-          }
-          // Swipe to close
-          else if (touchStartX - touchEndX > 50) {
-            this.closeMobileMenu()
-          }
-        },
-        { passive: true },
-      )
+  setupIntersectionObserver() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
     }
 
-    // Add touch feedback for gallery items
-    const galleryItems = document.querySelectorAll(".galeria-item")
-    galleryItems.forEach((item) => {
-      item.addEventListener(
-        "touchstart",
-        () => {
-          item.style.transform = "scale(0.98)"
-        },
-        { passive: true },
-      )
-
-      item.addEventListener(
-        "touchend",
-        () => {
-          setTimeout(() => {
-            item.style.transform = ""
-          }, 150)
-        },
-        { passive: true },
-      )
-    })
-
-    // Enhanced button touch feedback
-    const buttons = document.querySelectorAll(".btn-primary, .btn-secondary, .zap-btn, .btn-submit")
-    buttons.forEach((button) => {
-      button.addEventListener(
-        "touchstart",
-        () => {
-          button.style.transform = "scale(0.97)"
-        },
-        { passive: true },
-      )
-
-      button.addEventListener(
-        "touchend",
-        () => {
-          setTimeout(() => {
-            button.style.transform = ""
-          }, 150)
-        },
-        { passive: true },
-      )
-    })
-  }
-
-  // Mobile-specific optimizations
-  setupMobileOptimizations() {
-    // Prevent zoom on input focus (iOS)
-    const inputs = document.querySelectorAll("input, textarea, select")
-    inputs.forEach((input) => {
-      input.addEventListener("focus", () => {
-        if (window.innerWidth < 768) {
-          const viewport = document.querySelector('meta[name="viewport"]')
-          if (viewport) {
-            viewport.setAttribute(
-              "content",
-              "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
-            )
-          }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in")
         }
       })
+    }, observerOptions)
 
-      input.addEventListener("blur", () => {
-        if (window.innerWidth < 768) {
-          const viewport = document.querySelector('meta[name="viewport"]')
-          if (viewport) {
-            viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=5.0")
-          }
-        }
-      })
+    // Observe all sections
+    document.querySelectorAll("section[id]").forEach((section) => {
+      observer.observe(section)
     })
-
-    // Improve scroll performance on mobile
-    let ticking = false
-    const updateScrollElements = () => {
-      // Update header
-      const header = document.getElementById("main-header")
-      const scrollY = window.scrollY
-
-      if (scrollY > 50) {
-        header?.classList.add("scrolled")
-      } else {
-        header?.classList.remove("scrolled")
-      }
-
-      // Update scroll to top button
-      const scrollBtn = document.getElementById("scrollToTopBtn")
-      if (scrollY > 300) {
-        scrollBtn?.classList.add("show")
-      } else {
-        scrollBtn?.classList.remove("show")
-      }
-
-      ticking = false
-    }
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (!ticking) {
-          requestAnimationFrame(updateScrollElements)
-          ticking = true
-        }
-      },
-      { passive: true },
-    )
-
-    // Handle orientation change
-    window.addEventListener("orientationchange", () => {
-      setTimeout(() => {
-        // Close mobile menu on orientation change
-        this.closeMobileMenu()
-
-        // Recalculate viewport height
-        const vh = window.innerHeight * 0.01
-        document.documentElement.style.setProperty("--vh", `${vh}px`)
-      }, 100)
-    })
-
-    // Set initial viewport height for mobile browsers
-    const setVH = () => {
-      const vh = window.innerHeight * 0.01
-      document.documentElement.style.setProperty("--vh", `${vh}px`)
-    }
-
-    setVH()
-    window.addEventListener("resize", setVH)
-  }
-
-  handleSwipeGesture() {
-    const swipeThreshold = 80
-    const timeThreshold = 500
-    const touchDuration = Date.now() - this.touchStartTime
-
-    // Check if it's a valid swipe (not too slow, not too vertical)
-    const horizontalDistance = Math.abs(this.touchEndX - this.touchStartX)
-    const verticalDistance = Math.abs(this.touchEndY - this.touchStartY)
-
-    if (horizontalDistance > verticalDistance && horizontalDistance > swipeThreshold && touchDuration < timeThreshold) {
-      // Swipe right to left - close menu
-      if (this.touchStartX - this.touchEndX > swipeThreshold) {
-        this.closeMobileMenu()
-      }
-    }
   }
 
   showNotification(message, type = "info") {
@@ -800,52 +522,11 @@ class AqualitecWebsite {
       }, 300)
     }, 5000)
   }
-
-  // Performance optimization: Debounce function
-  debounce(func, wait) {
-    let timeout
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout)
-        func(...args)
-      }
-      clearTimeout(timeout)
-      timeout = setTimeout(later, wait)
-    }
-  }
-
-  // Performance optimization: Throttle function
-  throttle(func, limit) {
-    let inThrottle
-    return function () {
-      const args = arguments
-
-      if (!inThrottle) {
-        func.apply(this, args)
-        inThrottle = true
-        setTimeout(() => (inThrottle = false), limit)
-      }
-    }
-  }
-
-  // Add method to handle window resize
-  setupWindowResize() {
-    let resizeTimeout
-
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(() => {
-        // Close mobile menu if window becomes desktop size
-        if (window.innerWidth > 768) {
-          this.closeMobileMenu()
-        }
-      }, 250)
-    })
-  }
 }
 
-// Initialize the website when DOM is loaded
+// Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
+  new HeaderNavigation()
   new AqualitecWebsite()
 })
 
@@ -861,17 +542,4 @@ if ("serviceWorker" in navigator) {
         console.log("SW registration failed: ", registrationError)
       })
   })
-}
-
-// Performance monitoring
-if ("PerformanceObserver" in window) {
-  const observer = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      if (entry.entryType === "largest-contentful-paint") {
-        console.log("LCP:", entry.startTime)
-      }
-    }
-  })
-
-  observer.observe({ entryTypes: ["largest-contentful-paint"] })
 }
