@@ -1136,7 +1136,7 @@ h2::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("https://i.ibb.co/1t7gRfpp/aqualitec.png") center / cover;
+  background: url("aqualitec.png") center / cover;
   z-index: -2;
 }
 
