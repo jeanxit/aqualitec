@@ -273,34 +273,6 @@ class AqualitecWebsite {
 
     if (!modal) return
 
-    const modalImg = document.getElementById("galeria-img-principal")
-    const modalTitle = document.getElementById("galeria-titulo")
-    const modalDesc = document.getElementById("galeria-descricao")
-    const modalThumbs = document.getElementById("galeria-thumbs")
-
-    const galleryData = {
-      box: {
-        title: "Box para Banheiro em Vidro Temperado",
-        description:
-          "Boxes modernos e seguros com vidro temperado de alta qualidade, design personalizado e instalação profissional.",
-        images: [
-          "https://vidrosdelivery.com.br/wp-content/uploads/2023/09/001-BOX-BT3-TEC-VIDRO-3-FOLHAS-DE-CORRER-PRETO-D.png",
-          "/placeholder.svg?height=300&width=400",
-          "/placeholder.svg?height=300&width=400",
-        ],
-      },
-      fachada: {
-        title: "Fachadas em Vidro",
-        description:
-          "Fachadas modernas que combinam estética, funcionalidade e eficiência energética para seu projeto.",
-        images: [
-          "WhatsApp Image 2025-07-20 at 14.26.46 (1).png",
-          "/placeholder.svg?height=300&width=400",
-          "/placeholder.svg?height=300&width=400",
-        ],
-      },
-    }
-
     galleryItems.forEach((item) => {
       item.addEventListener("click", () => {
         const galleryId = item.dataset.galleryId
@@ -528,6 +500,26 @@ class AqualitecWebsite {
 document.addEventListener("DOMContentLoaded", () => {
   new HeaderNavigation()
   new AqualitecWebsite()
+
+  // Troca da imagem principal ao clicar nas thumbnails
+  const mainImg = document.getElementById("box-main-img")
+  const thumbs = document.querySelectorAll("#box-thumbs .box-thumb")
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      mainImg.src = thumb.src
+      thumbs.forEach((t) => t.classList.remove("active"))
+      thumb.classList.add("active")
+    })
+  })
+
+  // Abrir modal ao clicar na imagem principal ou overlay
+  const boxCard = document.querySelector(".box-card")
+  const overlay = boxCard.querySelector(".box-overlay")
+  ;[mainImg, overlay].forEach((el) => {
+    el.addEventListener("click", () => {
+      abrirModalGaleria("box") // Usa sua função já existente
+    })
+  })
 })
 
 // Service Worker registration for PWA capabilities
@@ -543,3 +535,97 @@ if ("serviceWorker" in navigator) {
       })
   })
 }
+
+// Mapeamento das imagens por categoria
+const galeriaImagens = {
+  box: [
+    "box/box1.jpeg",
+    "box/box2.jpeg",
+    "box/box3.jpeg"
+  ],
+  espelho: [
+    "espelhos/espelho1.jpeg",
+    "espelhos/espelho2.jpeg",
+    "espelhos/espelho3.jpeg"
+  ],
+  fachada: [
+    "fachada/fachada1.jpeg",
+    "fachada/fachada2.jpeg",
+    "fachada/fachada3.jpeg"
+  ],
+  varanda: [
+    "varanda/varanda1.jpeg",
+    "varanda/varanda2.jpeg",
+    "varanda/varanda3.jpeg"
+  ],
+  "guarda_corpo": [
+    "guarda_corpo/guarda1.jpeg",
+    "guarda_corpo/guarda2.jpeg",
+    "guarda_corpo/guarda3.jpeg"
+  ],
+  porta: [
+    "portas/porta1.jpeg",
+    "portas/porta2.jpeg",
+    "portas/porta3.jpeg"
+  ],
+  vitrine: [
+    "vitrine/vitrine1.jpeg",
+    "vitrine/vitrine2.jpeg",
+    "vitrine/vitrine3.jpeg"
+  ],
+  outro: [
+    "outro/outro1.jpeg",
+    "outro/outro2.jpeg",
+    "outro/outro3.jpeg"
+  ]
+};
+
+// Função para abrir o modal da galeria
+function abrirModalGaleria(categoria) {
+  const imagens = galeriaImagens[categoria] || [];
+  if (imagens.length === 0) return;
+
+  const modal = document.getElementById('modal-galeria');
+  const imgPrincipal = document.getElementById('galeria-img-principal');
+  const thumbs = document.getElementById('galeria-thumbs');
+  const titulo = document.getElementById('galeria-titulo');
+
+  // Exibe a primeira imagem
+  imgPrincipal.src = imagens[0];
+  imgPrincipal.alt = categoria;
+
+  // Título
+  titulo.textContent = document.querySelector(`.galeria-item[data-gallery-id="${categoria}"] .galeria-caption`)?.textContent || '';
+
+  // Miniaturas
+  thumbs.innerHTML = '';
+  imagens.forEach((src, idx) => {
+    const thumb = document.createElement('img');
+    thumb.src = src;
+    thumb.alt = categoria + ' thumb ' + (idx + 1);
+    thumb.className = idx === 0 ? 'active' : '';
+    thumb.addEventListener('click', () => {
+      imgPrincipal.src = src;
+      thumbs.querySelectorAll('img').forEach(img => img.classList.remove('active'));
+      thumb.classList.add('active');
+    });
+    thumbs.appendChild(thumb);
+  });
+
+  modal.style.display = 'flex';
+}
+
+// Fecha o modal
+document.querySelectorAll('.modal-close').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.modal-overlay').style.display = 'none';
+  });
+});
+
+// Clique nas imagens da galeria
+document.querySelectorAll('.galeria-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const categoria = item.getAttribute('data-gallery-id');
+    abrirModalGaleria(categoria);
+  });
+});
