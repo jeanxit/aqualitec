@@ -554,19 +554,14 @@ const galeriaImagens = {
     "fachada/fachada3.jpeg"
   ],
   varanda: [
+    "varanda/varanda3.jpeg",
     "varanda/varanda1.jpeg",
-    "varanda/varanda2.jpeg",
-    "varanda/varanda3.jpeg"
+    "varanda/varanda2.jpeg"
   ],
-  "guarda_corpo": [
-    "guarda_corpo/guarda1.jpeg",
-    "guarda_corpo/guarda2.jpeg",
-    "guarda_corpo/guarda3.jpeg"
-  ],
-  porta: [
-    "portas/porta1.jpeg",
-    "portas/porta2.jpeg",
-    "portas/porta3.jpeg"
+  residencial: [
+    "residencial/res1.jpeg",
+    "residencial/res2.jpeg",
+    "residencial/res3.jpeg"
   ],
   vitrine: [
     "vitrine/vitrine1.jpeg",
