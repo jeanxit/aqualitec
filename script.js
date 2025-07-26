@@ -552,9 +552,9 @@ const galeriaImagens = {
     "fachada/fachada3.jpeg"
   ],
   guarda_corpo: [
-    "guarda corpo/guarda-corpo3.jpeg",
-    "guarda corpo/guarda-corpo4.jpeg",
-    "guarda corpo/guarda-corpo2.jpeg"
+    "guarda_corpo/guarda_corpo3.jpeg",
+    "guarda_corpo/guarda_corpo4.jpeg",
+    "guarda_corpo/guarda_corpo2.jpeg"
   ],
   residencial: [
     "residencial/res1.jpeg",
@@ -567,8 +567,8 @@ const galeriaImagens = {
     "brise/brise3.jpeg"
   ],
   fechamento_varanda: [
-    "fechamento de varanda/fechamento1.jpeg",
-    "fechamento de varanda/fechamento2.jpeg"
+    "fechamento_varanda/fechamento1.jpeg",
+    "fechamento_varanda/fechamento2.jpeg"
   ],
   muro: [
     "muro/muro1.jpeg"
