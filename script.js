@@ -544,29 +544,25 @@ const galeriaImagens = {
     "box/box3.jpeg"
   ],
   espelho: [
-    "espelhos/espelho1.jpeg",
-    "espelhos/espelho2.jpeg",
-    "espelhos/espelho3.jpeg"
+    "espelhos/espelho1.jpeg"
   ],
   fachada: [
     "fachada/fachada1.jpeg",
     "fachada/fachada2.jpeg",
     "fachada/fachada3.jpeg"
   ],
-  varanda: [
-    "varanda/varanda3.jpeg",
-    "varanda/varanda1.jpeg",
-    "varanda/varanda2.jpeg"
+  guarda_corpo: [
+    "guarda corpo/guarda-corpo3.jpeg",
+    "guarda corpo/guarda-corpo4.jpeg",
+    "guarda corpo/guarda-corpo2.jpeg"
   ],
   residencial: [
     "residencial/res1.jpeg",
     "residencial/res2.jpeg",
     "residencial/res3.jpeg"
   ],
-  vitrine: [
-    "vitrine/vitrine1.jpeg",
-    "vitrine/vitrine2.jpeg",
-    "vitrine/vitrine3.jpeg"
+  muro: [
+    "muro/muro1.jpeg"
   ],
   outro: [
     "outro/outro1.jpeg",
