@@ -561,13 +561,20 @@ const galeriaImagens = {
     "residencial/res2.jpeg",
     "residencial/res3.jpeg"
   ],
+  brise: [
+    "brise/brise1.jpeg",
+    "brise/brise2.jpeg",
+    "brise/brise3.jpeg"
+  ],
+  fechamento_varanda: [
+    "fechamento de varanda/fechamento1.jpeg",
+    "fechamento de varanda/fechamento2.jpeg"
+  ],
   muro: [
     "muro/muro1.jpeg"
   ],
   outro: [
-    "outro/outro1.jpeg",
-    "outro/outro2.jpeg",
-    "outro/outro3.jpeg"
+    "outros/outros1.jpeg"
   ]
 };
 
