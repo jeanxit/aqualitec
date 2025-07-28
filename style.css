@@ -784,26 +784,41 @@ h2::after {
   color: #d61d1d;
 }
 
-.zap-btn {
+.zap-btn,
+.insta-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--espaco-sm);
-  background: var(--gradiente-sucesso);
+  justify-content: center;
+  width: 52px; /* tamanho quadrado */
+  height: 52px;
+  background: var(--gradiente-sucesso); /* será sobrescrito no insta */
   color: white;
-  padding: var(--espaco-lg) var(--espaco-xl);
   border-radius: var(--raio-full);
   text-decoration: none;
   font-weight: 700;
-  font-size: var(--fonte-lg);
-  margin-top: var(--espaco-lg);
+  font-size: 1.8rem; /* aumenta tamanho do ícone */
+  margin-top: var(--espaco-md);
   transition: all var(--transicao-normal);
   box-shadow: var(--sombra-lg);
+  padding: 0; /* remove padding horizontal */
 }
 
 .zap-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
 }
+
+.insta-btn {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  margin-left: var(--espaco-sm);
+}
+
+.insta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(220, 39, 67, 0.3);
+}
+
+
 
 .contact-form {
   background: white;
@@ -1062,13 +1077,43 @@ footer {
     gap: var(--espaco-xs);
   }
 
-  .zap-btn {
-    width: 100%;
-    justify-content: center;
-    padding: var(--espaco-md) var(--espaco-lg);
-    font-size: var(--fonte-base);
-    margin-top: var(--espaco-md);
-  }
+  .zap-btn,
+.insta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--espaco-md) var(--espaco-lg);
+  font-size: 1.6rem; /* ícone maior */
+  margin-top: var(--espaco-md);
+  border-radius: var(--raio-full);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all var(--transicao-normal);
+  box-shadow: var(--sombra-lg);
+  gap: var(--espaco-sm);
+}
+
+.zap-btn {
+  background: var(--gradiente-sucesso);
+}
+
+.zap-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+}
+
+.insta-btn {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  margin-left: 0; /* como está em linha 100%, não precisa espaço lateral */
+}
+
+.insta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(220, 39, 67, 0.3);
+}
+
 
   footer {
     padding: var(--espaco-lg) var(--espaco-sm);
