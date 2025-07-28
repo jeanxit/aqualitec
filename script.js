@@ -334,21 +334,6 @@ class AqualitecWebsite {
 
     if (!modal) return
 
-    const serviceData = {
-      box: {
-        title: "Box para Banheiro em Vidro Temperado",
-        description:
-          "Transforme seu banheiro com nossos boxes de vidro temperado sob medida. Oferecemos segurança, durabilidade e design moderno para criar o ambiente perfeito.",
-        benefits: [
-          "Vidro temperado 8mm de alta resistência",
-          "Ferragens em aço inoxidável premium",
-          "Design personalizado para seu espaço",
-          "Instalação profissional com garantia",
-          "Fácil limpeza e manutenção",
-          "Valorização do seu imóvel",
-        ],
-      },
-    }
 
     serviceItems.forEach((item) => {
       item.addEventListener("click", () => {
@@ -550,6 +535,11 @@ const galeriaImagens = {
     "fachada/fachada1.jpeg",
     "fachada/fachada2.jpeg",
     "fachada/fachada3.jpeg"
+  ],
+  cobertura: [
+    "cobertura/cobertura1.jpeg",
+    "cobertura/cobertura2.jpeg",
+    "cobertura/cobertura3.jpeg"
   ],
   guarda_corpo: [
     "guarda_corpo/guarda_corpo3.jpeg",
