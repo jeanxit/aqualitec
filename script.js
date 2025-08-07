@@ -394,36 +394,28 @@ class AqualitecWebsite {
     document.body.style.overflow = "auto"
   }
 
-  setupFormHandling() {
-    const form = document.querySelector(".contact-form form")
+setupFormHandling() {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
 
-    if (form) {
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault()
+  const submitBtn = form.querySelector(".btn-submit");
+  const originalText = submitBtn.textContent;
 
-        const submitBtn = form.querySelector(".btn-submit")
-        const originalText = submitBtn.textContent
+  form.addEventListener("submit", (e) => {
+    submitBtn.textContent = "Enviando...";
+    submitBtn.disabled = true;
+  });
 
-        // Show loading state
-        submitBtn.textContent = "Enviando..."
-        submitBtn.disabled = true
-
-        try {
-          // Simulate form submission
-          await new Promise((resolve) => setTimeout(resolve, 2000))
-
-          // Show success message
-          this.showNotification("Mensagem enviada com sucesso!", "success")
-          form.reset()
-        } catch (error) {
-          this.showNotification("Erro ao enviar mensagem. Tente novamente.", "error")
-        } finally {
-          submitBtn.textContent = originalText
-          submitBtn.disabled = false
-        }
-      })
+  // Detecta redirecionamento de sucesso via "visibilitychange"
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      // Provavelmente redirecionou
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
     }
-  }
+  });
+}
+
 
   setupIntersectionObserver() {
     const observerOptions = {
