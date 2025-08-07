@@ -566,7 +566,9 @@ const galeriaImagens = {
   outro: [
     "outros/outros1.jpeg",
     "outros/outros2.jpeg",
-    "outros/outros3.jpeg"
+    "outros/outros3.jpeg",
+    "outros/outros4.jpeg",
+    "outros/outros5.jpeg"
   ]
 };
 
