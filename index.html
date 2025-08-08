@@ -76,7 +76,7 @@
                     <i class="bi bi-chat-dots" aria-hidden="true"></i>
                     Solicite seu Orçamento
                 </a>
-                <a href="https://wa.me/5541996314404" class="btn-secondary" target="_blank" rel="noopener">
+                <a href="https://wa.me/554191283735?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20um%20or%C3%A7amento%20com%20a%20Aqualitec." class="btn-secondary" target="_blank" rel="noopener">
                     <i class="bi bi-whatsapp" aria-hidden="true"></i>
                     WhatsApp
                 </a>
@@ -317,8 +317,18 @@
                     <input type="hidden" name="_subject" value="Nova mensagem do site Aqualitec">
                     
                     <button type="submit" class="btn-submit">Enviar Mensagem</button>
+                    
                 </form>
             </div>
+        </div>
+                    <!-- Botão flutuante WhatsApp -->
+            <a href="https://wa.me/5541996314404?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20um%20or%C3%A7amento%20com%20a%20Aqualitec." class="zap-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            </a>
+            <!-- Botão flutuante Instagram (mesmo estilo do zap-btn) -->
+            <a href="https://www.instagram.com/aqualitec?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="insta-btn" target="_blank" rel="noopener" aria-label="Instagram">
+            <i class="bi bi-instagram" aria-hidden="true"></i>
+            </a>
         </div>
     </section>
 </main>
@@ -357,55 +367,6 @@
 <button id="scrollToTopBtn" class="scroll-to-top-btn" aria-label="Voltar ao topo">
     <i class="bi bi-arrow-up"></i>
 </button>
-
-<script src="script.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("contact-form");
-    const emailInput = document.getElementById("email");
-    const phoneInput = document.getElementById("phone");
-
-    // Máscara simples de telefone (formato BR)
-    phoneInput.addEventListener("input", function () {
-      let value = this.value.replace(/\D/g, "");
-      if (value.length > 11) value = value.slice(0, 11);
-      if (value.length > 0) value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-      if (value.length > 10) value = value.replace(/(\d{5})(\d{4})$/, "$1-$2");
-      this.value = value;
-    });
-
-    // Validação de e-mail com regex
-    function isEmailValid(email) {
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return regex.test(email);
-    }
-
-    // Validação de telefone com DDD + 9 dígitos
-    function isPhoneValid(phone) {
-      const digits = phone.replace(/\D/g, "");
-      return /^\d{11}$/.test(digits);
-    }
-
-    form.addEventListener("submit", function (e) {
-      const emailVal = emailInput.value.trim();
-      const phoneVal = phoneInput.value.trim();
-
-      if (!isEmailValid(emailVal)) {
-        e.preventDefault();
-        alert("Por favor, insira um e-mail válido.");
-        emailInput.focus();
-        return;
-      }
-
-      if (!isPhoneValid(phoneVal)) {
-        e.preventDefault();
-        alert("Por favor, insira um telefone válido com DDD e 9 dígitos.");
-        phoneInput.focus();
-        return;
-      }
-    });
-  });
-</script>
 
 </body>
 </html>
