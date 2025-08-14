@@ -1266,7 +1266,7 @@ footer {
 /* Imagem principal da galeria */
 #galeria-img-principal {
   width: 100%;
-  max-width: 460px;       /* Reduzido de 600px → 460px */
+  max-width: 400px;       /* Reduzido de 460px → 400px para desktop */
   aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: var(--raio-lg);
@@ -1319,6 +1319,7 @@ footer {
   #galeria-img-principal {
     max-width: 100%;
     aspect-ratio: 3 / 4;
+    touch-action: pan-y; /* Permite swipe horizontal */
   }
 
   #galeria-thumbs img {

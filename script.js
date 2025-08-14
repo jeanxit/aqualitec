@@ -431,6 +431,8 @@ function abrirModalGaleria(categoria) {
     const thumbs = document.getElementById('galeria-thumbs')
     const titulo = document.getElementById('galeria-titulo')
 
+    let currentIdx = 0
+
     // Exibe a primeira imagem
     imgPrincipal.src = imagens[0]
     imgPrincipal.alt = categoria
@@ -447,11 +449,63 @@ function abrirModalGaleria(categoria) {
         thumb.className = idx === 0 ? 'active' : ''
         thumb.addEventListener('click', () => {
             imgPrincipal.src = src
+            currentIdx = idx
             thumbs.querySelectorAll('img').forEach(img => img.classList.remove('active'))
             thumb.classList.add('active')
         })
         thumbs.appendChild(thumb)
     })
+
+    // --- SWIPE NAVIGATION ON MOBILE ---
+    let startX = 0
+    let isTouching = false
+
+    function showImageByIdx(idx) {
+        if (idx < 0) idx = imagens.length - 1
+        if (idx >= imagens.length) idx = 0
+        currentIdx = idx
+        imgPrincipal.src = imagens[currentIdx]
+        // Atualiza thumbs
+        thumbs.querySelectorAll('img').forEach((img, i) => {
+            img.classList.toggle('active', i === currentIdx)
+        })
+    }
+
+    // Touch events para swipe
+    imgPrincipal.ontouchstart = function (e) {
+        if (e.touches.length === 1) {
+            isTouching = true
+            startX = e.touches[0].clientX
+        }
+    }
+    imgPrincipal.ontouchmove = function (e) {
+        // opcional: pode adicionar efeito visual de arrasto
+    }
+    imgPrincipal.ontouchend = function (e) {
+        if (!isTouching) return
+        const endX = e.changedTouches[0].clientX
+        const deltaX = endX - startX
+        if (Math.abs(deltaX) > 40) { // threshold para swipe
+            if (deltaX < 0) {
+                // Swipe para esquerda → próxima imagem
+                showImageByIdx(currentIdx + 1)
+            } else {
+                // Swipe para direita → imagem anterior
+                showImageByIdx(currentIdx - 1)
+            }
+        }
+        isTouching = false
+    }
+
+    // Navegação por teclado (opcional, desktop)
+    imgPrincipal.onkeydown = function (e) {
+        if (e.key === "ArrowLeft") {
+            showImageByIdx(currentIdx - 1)
+        } else if (e.key === "ArrowRight") {
+            showImageByIdx(currentIdx + 1)
+        }
+    }
+    imgPrincipal.tabIndex = 0 // permite foco para teclado
 
     modal.style.display = 'flex'
 }
